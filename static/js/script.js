@@ -123,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Show results
             resultContainer.style.display = '';
+
+            // Add copy buttons to the result sections
+            addCopyButtons();
         } catch (error) {
             alert('Error: ' + error.message);
             console.error('Error:', error);
@@ -265,6 +268,87 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Add copy functionality for result sections
+    function addCopyButtons() {
+        // Add copy button to equation display
+        addCopyButtonToElement(equationDisplay, 'equation', () => equationInput.value.trim());
+
+        // Add copy button to explanation display
+        addCopyButtonToElement(explanationDisplay, 'explanation', () => {
+            const resultData = getSavedResultData();
+            return resultData?.explanation || '';
+        });
+
+        // Add copy button to breakdown display
+        addCopyButtonToElement(breakdownDisplay, 'breakdown', () => {
+            const resultData = getSavedResultData();
+            return resultData?.breakdown || '';
+        });
+    }
+
+    // Helper function to add copy button to an element
+    function addCopyButtonToElement(element, type, getContentFn) {
+        // Create button container with absolute positioning
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'copy-button-container';
+
+        // Create the button
+        const copyButton = document.createElement('button');
+        copyButton.className = 'btn btn-sm copy-button';
+        copyButton.innerHTML = '<i class="bi bi-clipboard"></i>';
+        copyButton.title = `Copy ${type} to clipboard`;
+
+        // Add click event
+        copyButton.addEventListener('click', async () => {
+            try {
+                const content = getContentFn();
+                await navigator.clipboard.writeText(content);
+
+                // Show feedback
+                copyButton.innerHTML = '<i class="bi bi-clipboard-check"></i>';
+                setTimeout(() => {
+                    copyButton.innerHTML = '<i class="bi bi-clipboard"></i>';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                copyButton.innerHTML = '<i class="bi bi-clipboard-x"></i>';
+                setTimeout(() => {
+                    copyButton.innerHTML = '<i class="bi bi-clipboard"></i>';
+                }, 2000);
+            }
+        });
+
+        // Add button to container and container to element
+        buttonContainer.appendChild(copyButton);
+
+        // Check if element already has a copy button
+        const existingButton = element.querySelector('.copy-button-container');
+        if (existingButton) {
+            existingButton.remove();
+        }
+
+        element.style.position = 'relative';
+        element.appendChild(buttonContainer);
+    }
+
+    // Helper function to get saved result data
+    function getSavedResultData() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'equationData') {
+                try {
+                    const data = JSON.parse(decodeURIComponent(value));
+                    return data.results;
+                } catch (e) {
+                    console.error('Error parsing saved data:', e);
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
     // Function to save data to cookies
     function saveDataToCookies(equation, context, results) {
         const data = {
@@ -337,6 +421,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         // Show results container
                         resultContainer.style.display = '';
+
+                        // After restoring results, add copy buttons
+                        addCopyButtons();
                     }
                 } catch (e) {
                     console.error('Error loading saved data:', e);

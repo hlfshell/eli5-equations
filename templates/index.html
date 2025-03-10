@@ -46,14 +46,14 @@
                                         style="display: none;">
                                 </div>
                                 <textarea class="form-control" id="equation" rows="3"
-                                    placeholder="\Pr(y_1 \geq y_2) = \frac{\exp(r(\mathbf{x}, y_1))}{\exp(r(\mathbf{x}, y_1)) + \exp(r(\mathbf{x}, y_2))}"
+                                    placeholder="Write your equation in latex here, or upload or paste an image of an equation"
                                     required></textarea>
                                 <div id="equation-preview" class="mt-2"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="context" class="form-label">Context (Optional)</label>
                                 <textarea class="form-control" id="context" rows="2"
-                                    placeholder="This is related to DPO, direct preference optimization"></textarea>
+                                    placeholder="Give as much context as what this equation is as possible"></textarea>
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary" id="submit-btn">Explain Equation</button>
@@ -78,9 +78,6 @@
         <div class="row justify-content-center mt-4" id="result-container" style="display: none;">
             <div class="col-md-10">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-light">
-                        <h3 class="card-title mb-0">Explanation Results</h3>
-                    </div>
                     <div class="card-body">
                         <div class="mb-4">
                             <h4>Equation</h4>
@@ -101,7 +98,9 @@
     </div>
 
     <footer class="text-center py-4 mt-5">
-        <p>Powered by Arkaine and Gemini 2.0</p>
+        <p><i class="bi bi-github"></i><i>&nbsp;powered by <a style="text-decoration: bold; color: purple;"
+                    href="https://github.com/hlfshell/arkaine">arkaine</a></i>
+        </p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
