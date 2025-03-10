@@ -11,7 +11,7 @@ from arkaine.utils.templater import PromptLoader, PromptTemplate
 llm = Google(model="gemini-2.0-flash-001")
 
 
-class Result:
+class Explanation:
     def __init__(self, equation: str, explanation: str, breakdown: str):
         self.equation = equation
         self.explanation = explanation
@@ -90,7 +90,16 @@ class EquationExplainingAgent(Agent):
         input("Press Enter to continue...")
         output, _ = self.__parser.parse(output)
 
-        return Result(
+        # Add an additional new line for the bullet points in breakdown.
+        # If it's missing an initial *, add it.
+        output["breakdown"] = output["breakdown"].replace("\n", "\n\n")
+        if output["breakdown"].strip()[0] != "* ":
+            output["breakdown"] = f"*{output['breakdown']}"
+
+        print("BREAKDOWN")
+        print(output["breakdown"])
+
+        return Explanation(
             equation=output["equation"],
             explanation=output["explanation"],
             breakdown=output["breakdown"],

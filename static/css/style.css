@@ -1,0 +1,156 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1000px;
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #3a56d4;
+    border-color: #3a56d4;
+}
+
+textarea.form-control {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    padding: 12px;
+    line-height: 1.5;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+}
+
+.equation-display {
+    font-size: 1.2rem;
+    overflow-x: auto;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#equation-preview {
+    min-height: 60px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid #e9ecef;
+}
+
+#explanation-display,
+#breakdown-display {
+    line-height: 1.6;
+}
+
+.bg-light {
+    background-color: #f0f4f8 !important;
+}
+
+footer {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.form-container,
+.result-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode .card {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .card-header {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .bg-light {
+    background-color: #2a2a2a !important;
+}
+
+.dark-mode textarea.form-control,
+.dark-mode #equation-preview {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.dark-mode .equation-display,
+.dark-mode #explanation-display,
+.dark-mode #breakdown-display {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.dark-mode footer {
+    color: #adb5bd;
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: inherit;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
