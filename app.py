@@ -17,8 +17,10 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Initialize the LLM
-llm = Google(model="gemini-2.0-flash-001")
-google_client = genai.GenerativeModel("gemini-1.5-flash")
+# llm = Google(model="gemini-2.0-flash-001")
+# google_client = genai.GenerativeModel("gemini-1.5-flash")
+llm = Google(model="gemini-2.5-pro-preview-03-25", context_length=200_000)
+google_client = genai.GenerativeModel("gemini-2.5-pro-preview-03-25")
 
 
 class Explanation:
@@ -102,7 +104,7 @@ class EquationExplainingAgent(Agent):
         output, _ = self.__parser.parse(output)
 
         return Explanation(
-            equation=output["equation"],
+            equation=clean_latex(output["equation"]),
             explanation=output["explanation"],
             breakdown=output["breakdown"],
         )
@@ -110,6 +112,18 @@ class EquationExplainingAgent(Agent):
 
 # Initialize the explainer agent
 explainer = EquationExplainingAgent(llm)
+
+
+def clean_latex(latex: str) -> str:
+    delimiters = ["$", "$$"]
+    equation = latex.strip()
+    equation = (
+        equation.replace("```latex", "").replace("```", "").replace("latex", "").strip()
+    )
+    for delimiter in delimiters:
+        if equation.startswith(delimiter) and equation.endswith(delimiter):
+            equation = equation[len(delimiter) : -len(delimiter)]
+    return equation
 
 
 @app.route("/api/explain", methods=["POST"])
@@ -155,12 +169,8 @@ def picture_to_equation():
         ]
     )
 
-    # If the text is surrounded by latex markers, remove them.
-    delimiters = ["$", "$$"]
-    equation = result.text
-    for delimiter in delimiters:
-        if equation.startswith(delimiter) and equation.endswith(delimiter):
-            equation = equation[len(delimiter) : -len(delimiter)]
+    # If the text is surrounded by latex or markdown markers, remove them.
+    equation = clean_latex(result.text)
 
     return jsonify({"equation": equation})
 

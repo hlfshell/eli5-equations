@@ -1,118 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap');
+
+:root {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #10b981;
+    --light-bg: #f9fafb;
+    --dark-bg: #111827;
+    --card-light: #ffffff;
+    --card-dark: #1f2937;
+    --text-light: #374151;
+    --text-dark: #f3f4f6;
+    --border-light: #e5e7eb;
+    --border-dark: #374151;
+    --shadow-light: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-dark: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-light);
+    transition: var(--transition);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Floating Math Elements Background */
+.math-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.math-element {
+    position: absolute;
+    opacity: 0.15;
+    font-size: 1.5rem;
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 2px rgba(16, 185, 129, 0.5); /* Green tint */
+    animation: float 30s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg) translateX(0);
+    }
+    25% {
+        transform: translateY(50vh) rotate(90deg) translateX(20px);
+    }
+    50% {
+        transform: translateY(0) rotate(180deg) translateX(0);
+    }
+    75% {
+        transform: translateY(-50vh) rotate(270deg) translateX(-20px);
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg) translateX(0);
+    }
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
+    padding: 0 20px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    padding: 3rem 0 2rem;
+    text-align: center;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.lead {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: var(--text-light);
+    opacity: 0.9;
 }
 
 .card {
-    border-radius: 10px;
-    border: none;
+    background-color: var(--card-light);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
     overflow: hidden;
     margin-bottom: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    transform: translateY(0);
 }
 
-.card-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.btn-primary {
-    background-color: #4361ee;
-    border-color: #4361ee;
-    padding: 10px 20px;
-    font-weight: 500;
+.card-body {
+    padding: 2rem;
 }
 
-.btn-primary:hover {
-    background-color: #3a56d4;
-    border-color: #3a56d4;
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: var(--text-light);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background-color: var(--light-bg);
+    transition: var(--transition);
 }
 
 textarea.form-control {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.1rem;
-    padding: 12px;
-    line-height: 1.5;
-    background-color: #f8f9fa;
-    border: 1px solid #ced4da;
+    font-family: 'JetBrains Mono', monospace;
+    resize: vertical;
+    min-height: 100px;
 }
 
-.equation-display {
-    font-size: 1.2rem;
-    overflow-x: auto;
-    padding: 15px;
-    margin-bottom: 15px;
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 8px;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    background-color: transparent;
+    border-color: var(--border-light);
+    color: var(--text-light);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+}
+
+.d-grid {
+    display: grid;
+    grid-gap: 0.75rem;
 }
 
 #equation-preview {
     min-height: 60px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    padding: 15px;
-    margin-top: 10px;
-    border: 1px solid #e9ecef;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equation-display,
+#explanation-display,
+#breakdown-display {
+    position: relative;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    transition: var(--transition);
+}
+
+.equation-display {
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 #explanation-display,
 #breakdown-display {
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
-.bg-light {
-    background-color: #f0f4f8 !important;
+/* Loading spinner */
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner 0.75s linear infinite;
 }
 
-footer {
-    color: #6c757d;
-    font-size: 0.9rem;
-}
-
-.form-container,
-.result-container {
-    max-width: 800px;
-    margin: 0 auto;
+@keyframes spinner {
+    to { transform: rotate(360deg); }
 }
 
 /* Dark Mode Styles */
 body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: var(--dark-bg);
+    color: var(--text-dark);
 }
 
 .dark-mode .card {
-    background-color: #1e1e1e;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--card-dark);
+    border-color: var(--border-dark);
+    box-shadow: var(--shadow-dark);
 }
 
-.dark-mode .card-header {
-    background-color: #2a2a2a;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.dark-mode .form-label {
+    color: var(--text-dark);
 }
 
-.dark-mode .bg-light {
-    background-color: #2a2a2a !important;
+.dark-mode .form-control {
+    background-color: #2d3748;
+    border-color: var(--border-dark);
+    color: var(--text-dark);
 }
 
-.dark-mode textarea.form-control,
-.dark-mode #equation-preview {
-    background-color: #333;
-    color: #e0e0e0;
-    border-color: #444;
+.dark-mode .form-control::placeholder {
+    color: #9ca3af;
 }
 
 .dark-mode .equation-display,
 .dark-mode #explanation-display,
-.dark-mode #breakdown-display {
-    background-color: #2a2a2a;
-    color: #e0e0e0;
+.dark-mode #breakdown-display,
+.dark-mode #equation-preview {
+    background-color: #2d3748;
+    border-color: var(--border-dark);
+    color: var(--text-dark);
 }
 
-.dark-mode footer {
-    color: #adb5bd;
+.dark-mode .btn-outline-secondary {
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+.dark-mode .btn-outline-secondary:hover {
+    background-color: #2d3748;
+}
+
+.dark-mode .lead {
+    color: #d1d5db;
+}
+
+.dark-mode .math-element {
+    opacity: 0.2;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 2px rgba(99, 102, 241, 0.5); /* Blue tint */
 }
 
 /* Dark Mode Toggle */
@@ -122,26 +311,67 @@ body.dark-mode {
     right: 20px;
     z-index: 1000;
     cursor: pointer;
-    background-color: transparent;
-    border: none;
-    font-size: 1.5rem;
-    color: inherit;
-    padding: 5px;
+    background-color: var(--card-light);
+    border: 1px solid var(--border-light);
+    font-size: 1.25rem;
+    color: var(--text-light);
+    padding: 0.5rem;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s;
+    transition: var(--transition);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .theme-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.dark-mode .theme-toggle {
+    background-color: var(--card-dark);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Copy button styles */
+.copy-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.copy-button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-light);
+}
+
+.copy-button:hover {
+    background-color: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+}
+
+.dark-mode .copy-button {
+    background-color: rgba(45, 55, 72, 0.8);
+    color: var(--text-dark);
+}
+
+.dark-mode .copy-button:hover {
+    background-color: rgba(45, 55, 72, 0.95);
 }
 
 /* Responsive adjustments */
@@ -153,46 +383,71 @@ body.dark-mode {
     h1 {
         font-size: 2rem;
     }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .theme-toggle {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
 }
 
-/* Copy button styles */
-.copy-button-container {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 10;
-}
-
-.copy-button {
-    background-color: rgba(240, 240, 240, 0.7);
-    border: none;
-    border-radius: 4px;
-    padding: 4px 8px;
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    color: var(--text-light);
+    opacity: 0.8;
     font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.copy-button:hover {
-    background-color: rgba(220, 220, 220, 0.9);
+.dark-mode footer {
+    color: var(--text-dark);
 }
 
-.dark-mode .copy-button {
-    background-color: rgba(60, 60, 60, 0.7);
-    color: #e0e0e0;
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
 }
 
-.dark-mode .copy-button:hover {
-    background-color: rgba(80, 80, 80, 0.9);
+footer a:hover {
+    text-decoration: underline;
 }
 
-.dark-mode textarea.form-control::placeholder {
-    color: #aaa;
+/* Image upload button */
+#image-upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* Make sure the equation, explanation, and breakdown containers have relative positioning */
-#equation-display,
-#explanation-display,
-#breakdown-display {
-    position: relative;
+/* Loading indicator */
+#loading-container {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+/* Result container */
+#result-container h4 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card, #result-container, #loading-container {
+    animation: fadeIn 0.5s ease-out;
 }

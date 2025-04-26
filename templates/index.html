@@ -10,16 +10,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
 <body>
+    <!-- Floating Math Elements Background -->
+    <div class="math-background" id="math-background">
+        <!-- Math elements will be dynamically added here via JavaScript -->
+    </div>
+    
     <!-- Dark Mode Toggle Button -->
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
         <i class="bi bi-sun-fill" id="theme-icon"></i>
     </button>
 
     <div class="container">
-        <header class="text-center my-5">
+        <header>
             <h1>Equations, but ELI5</h1>
             <p class="lead">Equations can be dense and hard to parse when you're just learning. Hopefully this tool can
                 help break down what each element of the equation is doing.</p>
@@ -27,13 +33,13 @@
 
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <div class="card shadow-sm">
+                <div class="card">
                     <div class="card-body">
                         <form id="equation-form">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="equation" class="form-label">LaTeX Equation</label>
-                                <div class="d-flex mb-2" style="justify-content: center;">
-                                    <button type="button" class="btn btn-outline-secondary me-2" id="image-upload-btn">
+                                <div class="d-flex mb-3" style="justify-content: center;">
+                                    <button type="button" class="btn btn-outline-secondary" id="image-upload-btn">
                                         <i class="bi bi-image"></i> Equation from image
                                     </button>
                                     <div id="image-upload-loading" style="display: none;">
@@ -48,17 +54,20 @@
                                 <textarea class="form-control" id="equation" rows="3"
                                     placeholder="Write your equation in latex here, or upload or paste an image of an equation"
                                     required></textarea>
-                                <div id="equation-preview" class="mt-2"></div>
+                                <div id="equation-preview"></div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="context" class="form-label">Context (Optional)</label>
                                 <textarea class="form-control" id="context" rows="2"
                                     placeholder="Give as much context as what this equation is as possible"></textarea>
                             </div>
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" id="submit-btn">Explain Equation</button>
-                                <button type="button" class="btn btn-outline-secondary" id="clear-btn">Clear Saved
-                                    Data</button>
+                                <button type="submit" class="btn btn-primary" id="submit-btn">
+                                    <i class="bi bi-magic"></i> Explain Equation
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="clear-btn">
+                                    <i class="bi bi-trash"></i> Clear Saved Data
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -77,19 +86,19 @@
 
         <div class="row justify-content-center mt-4" id="result-container" style="display: none;">
             <div class="col-md-10">
-                <div class="card shadow-sm">
+                <div class="card">
                     <div class="card-body">
                         <div class="mb-4">
-                            <h4>Equation</h4>
-                            <div class="equation-display p-3 bg-light rounded" id="equation-display"></div>
+                            <h4><i class="bi bi-calculator"></i> Equation</h4>
+                            <div class="equation-display" id="equation-display"></div>
                         </div>
                         <div class="mb-4">
-                            <h4>Explanation</h4>
-                            <div class="p-3 bg-light rounded" id="explanation-display"></div>
+                            <h4><i class="bi bi-lightbulb"></i> Explanation</h4>
+                            <div id="explanation-display"></div>
                         </div>
                         <div>
-                            <h4>Breakdown</h4>
-                            <div class="p-3 bg-light rounded" id="breakdown-display"></div>
+                            <h4><i class="bi bi-list-check"></i> Breakdown</h4>
+                            <div id="breakdown-display"></div>
                         </div>
                     </div>
                 </div>
@@ -97,9 +106,10 @@
         </div>
     </div>
 
-    <footer class="text-center py-4 mt-5">
-        <p><i class="bi bi-github"></i><i>&nbsp;powered by <a style="text-decoration: bold; color: purple;"
-                    href="https://github.com/hlfshell/arkaine">arkaine</a></i>
+    <footer>
+        <p>
+            <i class="bi bi-github"></i> powered by 
+            <a href="https://arkaine.dev">arkaine</a>
         </p>
     </footer>
 
@@ -109,9 +119,10 @@
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.2/marked.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-    <!-- Dark Mode Toggle Script -->
+    <!-- Dark Mode Toggle and Floating Math Elements Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Dark Mode Toggle
             const themeToggle = document.getElementById('theme-toggle');
             const themeIcon = document.getElementById('theme-icon');
 
@@ -134,6 +145,74 @@
                     themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
                 }
             });
+            
+            // Floating Math Elements
+            const mathBackground = document.getElementById('math-background');
+            const mathElements = [
+                '\\sum_{i=1}^{n} x_i', '\\int_{a}^{b} f(x) dx', 'E = mc^2', 
+                'F = ma', 'e^{i\\pi} + 1 = 0', 'a^2 + b^2 = c^2', 
+                '\\frac{dy}{dx}', '\\nabla \\cdot \\vec{F}', '\\Delta x \\Delta p \\geq \\frac{\\hbar}{2}',
+                'PV = nRT', '\\vec{F} = q(\\vec{E} + \\vec{v} \\times \\vec{B})',
+                '\\frac{1}{2}mv^2', 'V = IR', 'F = G\\frac{m_1 m_2}{r^2}',
+                '\\sin^2 \\theta + \\cos^2 \\theta = 1', '\\lim_{x \\to \\infty} \\frac{1}{x} = 0',
+                '\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}', 'c = \\lambda f',
+                'P(A|B) = \\frac{P(B|A)P(A)}{P(B)}', 'i\\hbar\\frac{\\partial}{\\partial t}\\Psi = \\hat{H}\\Psi',
+                'E = hf', '\\oint_C \\vec{B} \\cdot d\\vec{l} = \\mu_0 I', 'S = k \\ln W',
+                '\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}', '\\nabla \\times \\vec{B} = \\mu_0 \\vec{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\vec{E}}{\\partial t}',
+                'F = \\frac{d\\vec{p}}{dt}', 'E = \\frac{1}{2}I\\omega^2', 'p = \\frac{h}{\\lambda}',
+                'W = \\int \\vec{F} \\cdot d\\vec{s}', '\\vec{L} = \\vec{r} \\times \\vec{p}',
+                '\\frac{1}{\\sqrt{1-\\frac{v^2}{c^2}}}', 'E^2 = (pc)^2 + (mc^2)^2',
+                '\\frac{d}{dx}e^x = e^x', '\\int e^x dx = e^x + C',
+                '\\frac{d}{dx}\\sin x = \\cos x', '\\frac{d}{dx}\\cos x = -\\sin x',
+                '\\int \\sin x dx = -\\cos x + C', '\\int \\cos x dx = \\sin x + C',
+                'f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n', '\\oint_C f(z) dz = 2\\pi i \\sum Res(f, a_k)'
+            ];
+            
+            // Create floating math elements
+            for (let i = 0; i < 50; i++) {
+                const element = document.createElement('div');
+                element.className = 'math-element';
+                // Distribute equations more evenly across the screen
+                // Create a grid-like distribution but with some randomness
+                const gridX = i % 10; // 10 columns
+                const gridY = Math.floor(i / 10); // rows based on total count
+                
+                element.style.left = `${(gridX * 10) + (Math.random() * 8 - 4)}%`;
+                element.style.top = `${(gridY * 20) + (Math.random() * 15 - 7.5)}%`;
+                
+                // Faster animation with more variation
+                element.style.animationDuration = `${10 + Math.random() * 20}s`;
+                element.style.animationDelay = `${Math.random() * 10}s`;
+                element.style.animationDirection = Math.random() > 0.5 ? 'normal' : 'reverse';
+                element.style.animationTimingFunction = ['ease', 'ease-in', 'ease-out', 'ease-in-out', 'linear'][Math.floor(Math.random() * 5)];
+                element.style.transform = `scale(${0.7 + Math.random() * 0.6}) rotate(${Math.random() * 360}deg)`;
+                
+                // Set the math content
+                const mathContent = mathElements[i % mathElements.length];
+                
+                // Wrap in LaTeX delimiters if not already wrapped
+                let formattedContent = mathContent;
+                if (!formattedContent.startsWith('$') && !formattedContent.startsWith('\\(')) {
+                    formattedContent = '$' + formattedContent + '$';
+                }
+                
+                // Create a span to hold the rendered LaTeX
+                const span = document.createElement('span');
+                span.textContent = formattedContent;
+                element.appendChild(span);
+                
+                mathBackground.appendChild(element);
+            }
+            
+            // Render the math elements using KaTeX if available
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(mathBackground, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                });
+            }
         });
     </script>
 </body>

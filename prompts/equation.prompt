@@ -47,6 +47,7 @@ Remember the following:
 * Ensure the explanation is clear, concise, and easy to understand for someone with a basic understanding in math.
 * Focus on explaining the process represented by the equation rather than diving into deep mathematical details.
 * Output the explanation in a markdown-friendly format, with LaTeX for the equation and mathematical symbols
+* Never mix an explanation or comments with the latex equation output
 
 INPUT: {equation}
 CONTENT: {info}
